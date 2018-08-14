@@ -1,0 +1,38 @@
+Sub Main
+
+    Dim ExcelObj As Object
+    Dim ExcelBook As Object
+    Dim ExcelSheet As Object
+    Dim i As Integer
+    Dim XLS As String
+    Dim CSV As String
+    Dim Planilha As String
+
+    XLS = "c:\Arquivo que vira CSV"
+    CSV = "c:\Destino para salvar como CSV"
+    Planilha = "Nome_de_sua_planilha" 'Valor default = 1
+
+
+    Set ExcelObj = CreateObject("Excel.Application")
+    Set ExcelSheet = CreateObject("Excel.Sheet")
+
+     ExcelObj.DisplayAlerts = False
+
+    ExcelObj.WorkBooks.Open XLS
+
+    Set ExcelBook = ExcelObj.WorkBooks(1)
+    Set ExcelSheet = ExcelBook.WorkSheets(Planilha)
+
+    ExcelSheet.SaveAs CSV, FileFormat:=23, Local:=True
+
+    ExcelBook.Close SaveChanges:=False
+
+    Set ExcelSheet = Nothing
+    Set ExcelBook = Nothing
+    Set ExcelObj = Nothing
+
+    Set objFSO = CreateObject("Scripting.FileSystemObject")
+    objFSO.DeleteFile(XLS)
+    Set objFSO = Nothing
+
+End Sub
